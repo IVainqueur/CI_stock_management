@@ -8,6 +8,10 @@
     <title><?= $title ?> | Stock Manager</title>
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    *{margin: 0; padding: 0; box-sizing: border-box;}
+    body{height: 100vh; padding-top: 20px !important;}
+</style>
     <style>
         * {
             transition: .5s ease;

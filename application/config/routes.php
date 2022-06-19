@@ -54,12 +54,18 @@ $route["login"] = "login";
 $route["signup"] = "signup";
 $route["login/validate"] = "login/validate";
 $route["products"] = "products";
-$route["inventory"] = "products/inventory";
 $route["products/new"] = "products/add_page";
 $route["products/add"] = "products/add_product";
-$route["products/add_inventory"] = "products/add_inventory_page";
+$route["products/delete/(:num)"] = "products/delete_product/$1";
 $route["products/edit/(:num)"] = "products/edit_page/$1";
 $route["products/edit_product"] = "products/edit_product";
+
+$route["inventory"] = "products/inventory";
+$route["inventory/add_inventory"] = "products/add_inventory_page";
+$route["inventory/new"] = "products/add_to_inventory";
+$route["inventory/delete/(:num)"] = "products/delete_from_inventory/$1";
+$route["inventory/edit/(:num)"] = "products/edit_from_inventory/$1";
+
 $route["create"] = "signup/create";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

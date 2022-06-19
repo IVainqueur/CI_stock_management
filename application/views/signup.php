@@ -8,6 +8,10 @@
     <title><?= $title ?> | Stock Manager</title>
     <link rel="stylesheet" type="text/css" href="<?php echo RESOURCE.'signup.css'?>">
     <script src="https://cdn.tailwindcss.com"></script>
+<style>
+    *{margin: 0; padding: 0; box-sizing: border-box;}
+    body{height: 100vh; padding-top: 20px !important;}
+</style>
     <style>
         form{
             margin: auto;

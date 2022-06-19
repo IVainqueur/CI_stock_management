@@ -47,4 +47,10 @@ Class Product_Model extends CI_Model {
         );
         return $this->db->where("productId", $this->input->post("productId"))->update('products', $product_data);
     }
+
+    public function delete_product($id){
+        $this->db->where("productId", $id);
+        $this->db->delete("products");
+        return TRUE;
+    }
 }

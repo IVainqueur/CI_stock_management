@@ -10,7 +10,7 @@ Class Products extends CI_Controller {
     public function index(){
         $productsInstance = new Product_Model;
         $products = $productsInstance->get_products();
-        
+        $this->load->view("sidebar.php");
         $this->load->view('products', array("products"=>$products, "title"=>"Products"));
     }
 
@@ -24,6 +24,16 @@ Class Products extends CI_Controller {
     public function add_inventory_page(){
         $this->load->view('add_inventory', array("title"=>"Add To Inventory"));
 
+    }
+
+    public function add_to_inventory(){
+        $product_inventory = new Inventory_Model;
+        $success = $product_inventory->add_product();
+        if($success){
+            redirect(base_url()."inventory");
+        }else{
+            redirect(base_url()."inventory/add_inventory");
+        }
     }
 
     public function getforinventory($search){
@@ -51,8 +61,6 @@ Class Products extends CI_Controller {
         $this->load->view("add_product", array("title"=>"Add Product"));
     }
 
-    
-
     public function add_product(){
         $productsInstance = new Product_Model;
         $success = $productsInstance->add_product();
@@ -78,5 +86,21 @@ Class Products extends CI_Controller {
         $productsInstance = new Product_Model;
         $productsInstance->edit_product();
         redirect(base_url("products"));
+    }
+
+    public function delete_product($id){
+        $productsInstance = new Product_Model;
+        $success = $productsInstance->delete_product($id);
+        if($success){
+            redirect(base_url()."products");
+        }else{
+            redirect(base_url()."products/new");
+        }
+    }
+
+    public function delete_from_inventory($id){
+        (new Inventory_Model)->delete_product($id);
+        redirect(base_url()."inventory");
+        
     }
 }

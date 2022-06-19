@@ -25,7 +25,7 @@ Class Login extends CI_Controller {
         if(!password_verify($this->input->post("password"), $user[0]->password)){
             $this->load->view('login', array("title"=>"Login", "error"=>"Incorrect Password"));
         }else{
-            echo "Welcome in!";
+            redirect(base_url()."products");
         }
         
     }
