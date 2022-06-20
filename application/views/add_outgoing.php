@@ -25,11 +25,12 @@
             width: fit-content;
         }
     </style>
+    <!-- <link rel="stylesheet" href="./signup.css"> -->
 </head>
 
 <body>
-    <form action="<?php echo base_url('inventory/new') ?>" method="post" class="flex flex-col gap-1 m-auto mt-5 bg-slate-100 p-10 rounded">
-        <h1 class="text-3xl font-bold">Add to inventory</h1>
+    <form action="<?php echo base_url('outgoing/new') ?>" method="post" class="flex flex-col gap-1 m-auto mt-5 bg-slate-100 p-10 rounded">
+        <h1 class="text-3xl font-bold">Add to outgoing</h1>
         <div class="Field justify-between flex flex-col gap-1 items-start ">
             <div class="flex flex-row gap-1 p-2 justify-between flex-grow items-center">
                 <label for="userNameBox">
@@ -54,7 +55,7 @@
                 <?php
                 }
                 ?>
-            </div>
+            </div>i
         </div>
 
         <input id="SignUpBTN" type="submit" name="add" value="ADD PRODUCT" class="w-20 px-20 py-2 flex items-center justify-center bg-blue-400 text-white rounded">
@@ -75,7 +76,7 @@
             document.querySelector('.products').innerHTML = "Please Enter a search"
             return
         }
-        fetch(`<?php echo base_url("products/getforinventory/") ?>${value}`)
+        fetch(`<?php echo base_url("products/getforoutgoing/") ?>${value}`)
             .then(res => res.text())
             .then(data => {
                 if (data != "#error") {

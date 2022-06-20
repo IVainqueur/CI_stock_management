@@ -5,8 +5,10 @@ Class Login extends CI_Controller {
         parent::__construct();
         $this->load->helper("url");
         $this->load->model("User_model");
+        // session_write_close();
     }
     public function index(){
+        $this->session->set_userdata("userId",null);
         $this->load->view('login', array("title"=>"Login"));
     }
 
@@ -25,6 +27,9 @@ Class Login extends CI_Controller {
         if(!password_verify($this->input->post("password"), $user[0]->password)){
             $this->load->view('login', array("title"=>"Login", "error"=>"Incorrect Password"));
         }else{
+            // $this->session->userId = $user[0]->userId;
+            $this->session->set_userdata("userId", $user[0]->userId);
+            // var_dump($user[0]->userId);
             redirect(base_url()."products");
         }
         
