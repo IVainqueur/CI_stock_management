@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?> | Stock Manager</title>
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script defer src="<?=base_url().'resources/tailwindcss.js'?>"></script>
 <style>
     *{margin: 0; padding: 0; box-sizing: border-box;}
     body{height: 100vh; padding-top: 20px !important;}
@@ -55,8 +55,9 @@
                 </a>
             </div>
         </div>
-        <form action="<?php echo base_url('products') ?>" method="get">
+        <form action="<?php echo base_url('products') ?>" method="get" class="flex flex-row items-center gap-3">
             <input type="search" placeholder="Search" name="search" class="px-10 py-3 bg-slate-200 rounded my-2" value="<?= isset($_GET['search']) ? $_GET['search'] : '' ?>">
+            <img src="<?=base_url().'images/bx-printer.svg'?>" alt="" class="p-2 rounded h-10 w-10 hover:bg-slate-200  hover:rounded-full" onclick="location.href=`<?=base_url('products').'?print'?>`">
         </form>
         <div class="Table m-auto">
             <table>

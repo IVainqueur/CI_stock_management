@@ -1,5 +1,5 @@
 <?php
-
+require("PDF.php");
 class Products extends CI_Controller
 {
     public function __construct()
@@ -15,7 +15,7 @@ class Products extends CI_Controller
         /**
          * CHECK IF THE USER IS AUTHENTICATED
          */
-        if($this->session->userId === null){
+        if ($this->session->userId === null) {
             redirect(base_url('login'));
         }
     }
@@ -27,7 +27,25 @@ class Products extends CI_Controller
         $userData = $this->User_model->get_user_by_id($this->session->userId);
         // var_dump($userData);
         // return;
-        $this->load->view("sidebar.php", array("user"=>$userData));
+        if ($this->input->get("print") !== null) {
+            $headers = array("Name", "Brand", "Supplier Phone", "Supplier", "Added On");
+            $data = array();
+            foreach ($products as $product) {
+                $productData = array();
+                $productData[] = $product->product_Name;
+                $productData[] = $product->brand;
+                $productData[] = $product->supplier_phone;
+                $productData[] = $product->supplier;
+                $productData[] = $product->added_date;
+                $data[] = $productData;
+                // var_dump($productData);
+                // echo "<br>";
+                // echo "<br>";
+            }
+            $this->newPDF($headers, $data);
+            return;
+        }
+        $this->load->view("sidebar.php", array("user" => $userData));
         $this->load->view('products', array("products" => $products, "title" => "Products"));
     }
 
@@ -37,16 +55,32 @@ class Products extends CI_Controller
         $products = $productsInstance->get_products();
         // $userModel = new User_model
         $userData = $this->User_model->get_user_by_id($this->session->userId);
-        $this->load->view("sidebar.php", array("user"=>$userData));
-        $this->load->view('inventory', array("products" => $products, "title" => "Inventory"));
+        if ($this->input->get("print") !== null) {
+            $headers = array("Product Name", "Quantity", "Added On");
+            $data = array();
+            foreach ($products as $product) {
+                $productData = array();
+                $productData[] = $product->product_Name;
+                $productData[] = $product->quantity;
+                $productData[] = $product->added_date;
+                $data[] = $productData;
+                // echo "<br>";
+                // echo "<br>";
+            }
+            // var_dump($headers);
+            $this->newPDF($headers, $data);
+            return;
+        }
+        $this->load->view("sidebar.php", array("user" => $userData));
+        $this->load->view('inventory', array("products" => $products, "title" => "Inventory", "user" => $userData));
     }
 
     public function add_inventory_page()
     {
         // $userModel = new User_model
         $userData = $this->User_model->get_user_by_id($this->session->userId);
-        $this->load->view("sidebar.php", array("user"=>$userData));
-        $this->load->view('add_inventory', array("title" => "Add To Inventory"));
+        $this->load->view("sidebar.php", array("user" => $userData));
+        $this->load->view('add_inventory', array("title" => "Add To Inventory", "user" => $userData));
     }
 
     public function add_to_inventory()
@@ -56,8 +90,9 @@ class Products extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
 
-            $this->load->view("sidebar.php");
-            $this->load->view('add_inventory', array("title" => "Add To Inventory"));
+            $userData = $this->User_model->get_user_by_id($this->session->userId);
+            $this->load->view("sidebar.php", array("user" => $userData));
+            $this->load->view('add_inventory', array("title" => "Add To Inventory", "user" => $userData));
         } else {
             $product_inventory = new Inventory_Model;
             $success = $product_inventory->add_product();
@@ -102,17 +137,33 @@ class Products extends CI_Controller
         $productsInstance = new Outgoing_Model;
         $products = $productsInstance->get_products();
         // $userModel = new User_model
+        if ($this->input->get("print") !== null) {
+            $headers = array("Product Name", "Quantity", "Added On");
+            $data = array();
+            foreach ($products as $product) {
+                $productData = array();
+                $productData[] = $product->product_Name;
+                $productData[] = $product->quantity;
+                $productData[] = $product->added_date;
+                $data[] = $productData;
+                // var_dump($productData);
+                // echo "<br>";
+                // echo "<br>";
+            }
+            $this->newPDF($headers, $data);
+            return;
+        }
         $userData = $this->User_model->get_user_by_id($this->session->userId);
-        $this->load->view("sidebar.php", array("user"=>$userData));
-        $this->load->view('outgoing', array("products" => $products, "title" => "outgoing"));
+        $this->load->view("sidebar.php", array("user" => $userData));
+        $this->load->view('outgoing', array("products" => $products, "title" => "outgoing", "user" => $userData));
     }
 
     public function add_outgoing_page()
     {
         // $userModel = new User_model
         $userData = $this->User_model->get_user_by_id($this->session->userId);
-        $this->load->view("sidebar.php", array("user"=>$userData));
-        $this->load->view('add_outgoing', array("title" => "Add To outgoing"));
+        $this->load->view("sidebar.php", array("user" => $userData));
+        $this->load->view('add_outgoing', array("title" => "Add To outgoing", "user" => $userData));
     }
 
     public function add_to_outgoing()
@@ -158,8 +209,8 @@ class Products extends CI_Controller
     {
         // $userModel = new User_model
         $userData = $this->User_model->get_user_by_id($this->session->userId);
-        $this->load->view("sidebar.php", array("user"=>$userData));
-        $this->load->view("add_product", array("title" => "Add Product"));
+        $this->load->view("sidebar.php", array("user" => $userData));
+        $this->load->view("add_product", array("title" => "Add Product", "user" => $userData));
     }
 
     public function add_product()
@@ -184,8 +235,8 @@ class Products extends CI_Controller
         }
         // $userModel = new User_model
         $userData = $this->User_model->get_user_by_id($this->session->userId);
-        $this->load->view("sidebar.php", array("user"=>$userData));
-        $this->load->view("edit_product", array("product" => $product[0], "title" => "Edit Product"));
+        $this->load->view("sidebar.php", array("user" => $userData));
+        $this->load->view("edit_product", array("product" => $product[0], "title" => "Edit Product", "user" => $userData));
     }
 
     public function edit_product()
@@ -204,5 +255,23 @@ class Products extends CI_Controller
         } else {
             redirect(base_url() . "products/new");
         }
+    }
+
+    public function newPDF($headers, $data)
+    {
+        $pdf = new PDF('L');
+        // $headers = array("Head1", "Head2", "Head3", "Head4");
+        // $data = [
+        //     array("Text1", "Text2", "Text3", "Text4"),
+        //     array("Text1", "Text2", "Text3", "Text4"),
+        //     array("Text1", "Text2", "Text3", "Text4"),
+        //     array("Text1", "Text2", "Text3", "Text4")
+        // ];
+
+        $pdf->SetFont('Arial', '', 14);
+        $pdf->AddPage();
+
+        $pdf->BasicTable($headers, $data);
+        $pdf->Output();
     }
 }

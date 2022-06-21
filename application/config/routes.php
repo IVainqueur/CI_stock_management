@@ -72,6 +72,9 @@ $route["outgoing/new"] = "products/add_to_outgoing";
 $route["outgoing/delete/(:num)"] = "products/delete_from_outgoing/$1";
 $route["outgoing/edit/(:num)"] = "products/edit_from_outgoing/$1";
 
+$route["newPDF"] = "products/newPDF";
+$route["forgotPassword"] = "login/forgotPassword";
+
 $route["create"] = "signup/create";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?> | Stock Manager</title>
-    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script defer src="<?=base_url().'resources/tailwindcss.js'?>"></script>
     <style>
         * {
             margin: 0;
